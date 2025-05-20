@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>PivotTable</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.23.0/pivot.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.23.0/pivot.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.23.0/pivot.fr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.23.0/export_renderers.min.js"></script>
+  </head>
+  <body>
+
+      <!-- Add a view selector with two mode : original pivot table and fullscreen -->
+    <div id="view-mode-selector-container">
+      <label for="view-mode-select">Vue :</label>
+      <select id="view-mode-select">
+        <option value="pivot">Vue Tableau Croisé Dynamique</option>
+        <option value="fullscreen">Vue Tableau plein écran</option>
+      </select>
+    </div>
+  
+    <!-- exit full screen -->
+    <button id="fullscreen-exit-button" title="Quitter le mode plein écran">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+      </svg>
+    </button>
+  
+    <!-- fullscreen container -->
+    <div id="fullscreen-table-container" style="display: none;"></div>
+
+    <div id="table"></div>
+    <script src="index.js"></script>
+    <script src="PivotLabels.js"></script>
+  </body>
+</html>

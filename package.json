@@ -1,0 +1,21 @@
+{
+  "name": "@gristlabs/widget-pivottable",
+  "description": "Customizable pivot table",
+  "homePage": "https://github.com/gristlabs/grist-widget",
+  "version": "0.0.1",
+  "grist": {
+    "name": "Pivot table",
+    "url": "https://gristlabs.github.io/grist-widget/pivottable/index.html",
+    "widgetId": "@gristlabs/widget-pivottable",
+    "published": true,
+    "accessLevel": "read table",
+    "renderAfterReady": true,
+    "description": "Build and modify a pivot table from a selected Grist table.",
+    "authors": [
+      {
+        "name": "jperon",
+        "url": "https://github.com/jperon"
+      }
+    ]
+  }
+}

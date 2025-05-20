@@ -1,0 +1,597 @@
+/* Variables de couleurs complètes */
+:root {
+  --primary-color: #6366f1;
+  --primary-light: #818cf8;
+  --secondary-color: #f472b6;
+  --accent-color: #34d399;
+  --background-light: #f9fafb;
+  --background-dark: #1f2937;
+  --text-light: #f3f4f6;
+  --text-dark: #111827;
+  --border-light: #e5e7eb;
+  --border-dark: #4b5563;
+  --hover-light: #f0f9ff;
+  --hover-dark: #374151;
+
+  /* Variables pour le tableau */
+  --table-header-bg: #f0f4ff;
+  --table-header-text: #4338ca;
+  --table-row-even: #ffffff;
+  --table-row-odd: #f8faff;
+  --table-border: #e5e9ff;
+  --table-hover: #eef2ff;
+}
+
+/* Styles de base */
+body {
+  font-family: 'Inter', 'Nunito', sans-serif;
+  margin: 0;
+  padding: 20px;
+  transition: all 0.3s ease;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+}
+
+#table {
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+}
+
+/* --- STYLES POUR LE SÉLECTEUR DE VUE --- */
+#view-mode-selector-container {
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: fit-content;
+  position: relative;
+  z-index: 10;
+}
+body.fullscreen-active #view-mode-selector-container {
+  display: none !important; /* Cacher le sélecteur en mode plein écran */
+}
+#view-mode-selector-container label {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 14px;
+}
+#view-mode-selector-container select {
+  border-radius: 8px !important;
+  border: 1px solid var(--border-light) !important;
+  padding: 8px 12px !important;
+  font-family: 'Inter', 'Nunito', sans-serif !important;
+  font-size: 14px !important;
+  background-color: #f3f4f6 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+#view-mode-selector-container select:hover {
+  border-color: var(--primary-light) !important;
+}
+
+/* --- STYLES POUR LE MODE PLEIN ÉCRAN --- */
+#fullscreen-table-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 0;
+  background-color: var(--background-light);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+#fullscreen-table-container::-webkit-scrollbar {
+  display: none;
+}
+
+#fullscreen-table-container table.pvtTable {
+  margin: 0 !important;
+  width: 100% !important;
+  min-height: 100%;
+  display: table !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-size: 13px !important;
+}
+#fullscreen-table-container table.pvtTable thead tr th,
+#fullscreen-table-container table.pvtTable tbody tr th {
+  font-size: 13px !important;
+  padding: 8px 10px !important;
+}
+#fullscreen-table-container table.pvtTable tbody tr td {
+  font-size: 12px !important;
+  padding: 6px 10px !important;
+}
+#fullscreen-table-container table.pvtTable .pvtVal {
+  font-size: 13px !important;
+}
+#fullscreen-table-container .pvtTotal,
+#fullscreen-table-container .pvtTotalLabel,
+#fullscreen-table-container .pvtGrandTotal {
+  font-size: 13px !important;
+  padding: 8px 10px !important;
+}
+
+body.fullscreen-active {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+/* --- BOUTON POUR QUITTER LE MODE PLEIN ÉCRAN --- */
+#fullscreen-exit-button {
+  position: fixed;
+  bottom: 15px; /* Au lieu de top: 15px */
+  left: 15px; /* Garder la même distance depuis la gauche */
+  z-index: 2002;
+  background-color: rgba(99, 102, 241, 0.75);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+#fullscreen-exit-button:hover {
+  background-color: var(--primary-color);
+  transform: scale(1.1);
+}
+#fullscreen-exit-button svg {
+  fill: white !important;
+  width: 20px !important;
+  height: 20px !important;
+  transform: none !important; /* Réinitialiser toute transformation */
+  min-width: 20px !important; /* Forcer une largeur minimale */
+  min-height: 20px !important; /* Forcer une hauteur minimale */
+  display: block !important; /* S'assurer que l'icône est affichée correctement */
+}
+
+#fullscreen-exit-button path {
+  fill: white !important;
+  d: path("M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z") !important; /* Forcer le chemin correct */
+  transform: none !important;
+}
+
+/* Gérer la visibilité du bouton de sortie plein écran */
+body:not(.fullscreen-active) #fullscreen-exit-button {
+  display: none;
+}
+body.fullscreen-active #fullscreen-exit-button {
+  display: flex;
+}
+
+/* --- STYLES POUR LES SÉLECTEURS ET CONTRÔLES --- */
+select,
+.pvtAttr,
+.pvtDropdownValue,
+.pvtDropdownMenu {
+  border-radius: 12px !important;
+  border: 1px solid var(--border-light) !important;
+  padding: 8px 12px !important;
+  font-family: 'Inter', 'Nunito', sans-serif !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+  background-color: #f3f4f6 !important;
+}
+
+select:hover,
+.pvtAttr:hover {
+  border-color: var(--primary-light) !important;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* --- STYLES POUR LES BOUTONS --- */
+button,
+.pvtFilterBox button {
+  border-radius: 12px !important;
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  font-family: 'Inter', 'Nunito', sans-serif !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+button:hover,
+.pvtFilterBox button:hover {
+  background-color: var(--primary-light) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- STYLES POUR LES TABLEAUX PIVOTTABLE --- */
+table.pvtTable {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--table-border) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+  margin-top: 20px !important;
+  font-size: 16px !important;
+}
+
+/* En-têtes du tableau */
+table.pvtTable thead tr th,
+table.pvtTable tbody tr th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--table-header-text) !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  padding: 16px 20px !important;
+  border: 1px solid var(--table-border) !important;
+  text-align: left !important;
+}
+
+/* Cellules du tableau */
+table.pvtTable tbody tr td {
+  padding: 14px 20px !important;
+  border: 1px solid var(--table-border) !important;
+  transition: background-color 0.2s ease !important;
+  font-size: 16px !important;
+}
+
+/* Rangées alternées pour meilleure lisibilité - POUR CELLES QUI NE SONT PAS DES HEATMAPS */
+table.pvtTable tbody tr:nth-child(even) td:not([style*="background-color:"]) {
+  background-color: var(--table-row-even) !important;
+}
+
+table.pvtTable tbody tr:nth-child(odd) td:not([style*="background-color:"]) {
+  background-color: var(--table-row-odd) !important;
+}
+
+/* Effet hover sur les lignes - SAUF POUR LES HEATMAPS */
+table.pvtTable tbody tr:hover td:not([style*="background-color:"]) {
+  background-color: var(--table-hover) !important;
+}
+
+/* Valeurs numériques */
+table.pvtTable .pvtVal {
+  font-weight: 600 !important;
+  font-size: 17px !important;
+}
+
+/* Totaux et étiquettes */
+.pvtTotal,
+.pvtTotalLabel,
+.pvtGrandTotal {
+  background-color: #eef2ff !important;
+  color: var(--primary-color) !important;
+  font-weight: 700 !important;
+  font-size: 17px !important;
+  padding: 14px 20px !important;
+}
+
+/* --- STYLES POUR LES ZONES DE GLISSER-DÉPOSER --- */
+.pvtAxisContainer,
+.pvtVals {
+  border-radius: 12px !important;
+  background-color: #f0f4ff !important;
+  border: 2px dashed #c7d2fe !important;
+  padding: 15px !important;
+  margin: 10px 0 !important;
+  min-height: 60px !important;
+}
+
+.pvtAxisContainer li {
+  padding: 6px 12px !important;
+  margin: 4px !important;
+  border-radius: 20px !important;
+  background-color: #e0e7ff !important;
+  border: 1px solid var(--primary-light) !important;
+  color: var(--primary-color) !important;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.1) !important;
+  transition: all 0.2s ease !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  cursor: grab !important;
+}
+
+/* --- AFFICHAGE VERTICAL POUR LA ZONE DE GAUCHE --- */
+.pvtRows {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.pvtRows li {
+  display: inline-flex !important;
+  width: auto !important;
+  margin: 4px 0 !important;
+}
+
+.pvtAxisContainer li:hover {
+  background-color: var(--primary-light) !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2) !important;
+}
+
+/* --- STYLES POUR LES FILTRES --- */
+.pvtFilterBox {
+  border-radius: 16px !important;
+  box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15) !important;
+  border: 1px solid var(--table-border) !important;
+  padding: 18px !important;
+  background-color: white !important;
+}
+
+.pvtFilterBox h4 {
+  margin-top: 0 !important;
+  color: var(--primary-color) !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  margin-bottom: 12px !important;
+  border-bottom: 2px solid #eef2ff !important;
+  padding-bottom: 10px !important;
+}
+
+/* Amélioration des champs de filtres */
+.pvtSearch {
+  border-radius: 20px !important;
+  border: 1px solid var(--table-border) !important;
+  padding: 8px 12px !important;
+  width: 90% !important;
+  margin-bottom: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Fix pour les cases à cocher dans les filtres */
+.pvtCheckContainer {
+  padding: 5px !important;
+  margin: 2px 0 !important;
+  border-radius: 8px !important;
+}
+
+.pvtCheckContainer:hover {
+  background-color: var(--table-hover) !important;
+}
+
+/* --- ANIMATIONS POUR LES ÉLÉMENTS INTERACTIFS --- */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pvtAxisContainer li:active {
+  animation: pulse 0.3s ease;
+  cursor: grabbing !important;
+}
+
+/* --- STYLES POUR AMÉLIORER LE DRAG AND DROP --- */
+.ui-sortable-helper {
+  opacity: 0.85 !important;
+  transform: scale(1.03) translateY(-1px) !important;
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.25) !important;
+  background-color: var(--primary-light) !important;
+  color: white !important;
+  border-radius: 20px !important;
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border: 1px solid var(--primary-color) !important;
+  z-index: 9999 !important;
+  cursor: grabbing !important;
+}
+
+/* Style pour l'emplacement de dépôt (placeholder) */
+.pvtAxisContainer .ui-sortable-placeholder,
+.pvtVals .ui-sortable-placeholder,
+.pvtRows .ui-sortable-placeholder,
+.pvtCols .ui-sortable-placeholder,
+.pvtUnused .ui-sortable-placeholder {
+  background-color: #e0e7ff !important;
+  border: 2px dashed var(--primary-color) !important;
+  border-radius: 20px !important;
+  visibility: visible !important;
+  margin: 4px !important;
+  min-height: 30px !important;
+  min-width: 60px !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+}
+
+/* --- STYLES POUR LE MODE SOMBRE --- */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+  }
+
+  /* Styles pour le sélecteur de vue en mode sombre */
+  #view-mode-selector-container {
+    background-color: var(--background-dark);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  #view-mode-selector-container label {
+    color: var(--text-light);
+  }
+  #view-mode-selector-container select {
+    background-color: #2d3748 !important;
+    color: var(--text-light) !important;
+    border-color: var(--border-dark) !important;
+  }
+
+  /* Styles pour le conteneur plein écran en mode sombre */
+  #fullscreen-table-container {
+    background-color: var(--background-dark);
+  }
+
+  /* Style pour le bouton de sortie en mode sombre */
+  #fullscreen-exit-button {
+    background-color: rgba(129, 140, 248, 0.75);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+  #fullscreen-exit-button:hover {
+    background-color: var(--primary-light);
+  }
+  #fullscreen-exit-button svg {
+    fill: var(--text-light);
+  }
+
+  /* Styles pour le tableau en mode sombre */
+  #table {
+    background-color: #111827;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Styles pour les sélecteurs en mode sombre */
+  select,
+  .pvtAttr,
+  .pvtDropdownValue,
+  .pvtDropdownMenu {
+    background-color: #2d3748 !important;
+    color: var(--text-light) !important;
+    border-color: var(--border-dark) !important;
+  }
+
+  select:hover,
+  .pvtAttr:hover {
+    border-color: var(--primary-light) !important;
+    background-color: #374151 !important;
+  }
+
+  /* Styles pour les cellules UI en mode sombre */
+  .pvtUiCell,
+  .pvtRenderer,
+  .pvtAggregator {
+    background-color: #1f2937 !important;
+    color: var(--text-light) !important;
+    border-color: var(--border-dark) !important;
+  }
+
+  /* Styles pour les boîtes de filtres en mode sombre */
+  .pvtFilterBox {
+    background-color: #1f2937 !important;
+    color: var(--text-light) !important;
+    border-color: var(--border-dark) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .pvtFilterBox h4 {
+    color: var(--primary-light) !important;
+    border-bottom-color: #374151 !important;
+  }
+
+  .pvtSearch {
+    background-color: #2d3748 !important;
+    color: var(--text-light) !important;
+    border-color: var(--border-dark) !important;
+  }
+
+  .pvtCheckContainer:hover {
+    background-color: var(--hover-dark) !important;
+  }
+
+  /* Styles pour le tableau PivotTable en mode sombre */
+  table.pvtTable {
+    border-color: var(--border-dark) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  table.pvtTable thead tr th,
+  table.pvtTable tbody tr th {
+    background-color: #2d3748 !important;
+    color: var(--text-light) !important;
+    border-color: var(--border-dark) !important;
+  }
+
+  table.pvtTable tbody tr td {
+    border-color: var(--border-dark) !important;
+    color: var(--text-light) !important;
+  }
+
+  /* MODIFICATION CLÉ: Ne pas toucher aux td avec background-color inline */
+  table.pvtTable tbody tr td[style*="background-color:"] {
+    color: var(--text-dark) !important; /* Texte foncé sur fond coloré */
+  }
+
+  /* Rangées alternées en mode sombre - SAUF POUR LES HEATMAPS */
+  table.pvtTable tbody tr:nth-child(even) td:not([style*="background-color:"]) {
+    background-color: #1e293b !important;
+  }
+
+  table.pvtTable tbody tr:nth-child(odd) td:not([style*="background-color:"]) {
+    background-color: #1f2937 !important;
+  }
+
+  table.pvtTable tbody tr:hover td:not([style*="background-color:"]) {
+    background-color: var(--hover-dark) !important;
+  }
+
+  /* Styles pour les totaux et étiquettes en mode sombre */
+  .pvtTotal,
+  .pvtTotalLabel,
+  .pvtGrandTotal {
+    background-color: #312e81 !important;
+    color: #c7d2fe !important;
+  }
+
+  /* Styles pour les conteneurs d'axes en mode sombre */
+  .pvtAxisContainer,
+  .pvtVals {
+    background-color: #1f2937 !important;
+    border-color: #4338ca !important;
+  }
+
+  .pvtAxisContainer li {
+    background-color: #312e81 !important;
+    border-color: var(--primary-light) !important;
+    color: #c7d2fe !important;
+  }
+
+  .pvtAxisContainer li:hover {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+  }
+
+  /* Styles pour le drag and drop en mode sombre */
+  .ui-sortable-helper {
+    background-color: var(--primary-color) !important;
+    color: var(--text-light) !important;
+    border-color: var(--primary-light) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .pvtAxisContainer .ui-sortable-placeholder,
+  .pvtVals .ui-sortable-placeholder,
+  .pvtRows .ui-sortable-placeholder,
+  .pvtCols .ui-sortable-placeholder,
+  .pvtUnused .ui-sortable-placeholder {
+    background-color: #2d3748 !important;
+    border-color: var(--primary-light) !important;
+  }
+
+  .pvtAxisContainer.ui-sortable-hover,
+  .pvtVals.ui-sortable-hover {
+    background-color: var(--hover-dark) !important;
+    border-color: var(--primary-light) !important;
+  }
+}
